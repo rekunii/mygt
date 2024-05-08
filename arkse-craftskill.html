@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport"content="width=device-width">
+<title>サドルの制作ボーナス</title>
+<link rel="shortcut icon"href="favicon.webp">
+<style>
+[v-cloak]{display:none;
+}*{margin:0;
+font-size:1rem;
+}body{background-color:#bad8ba;
+}#app{display:flex;
+flex-direction:column;
+justify-content:space-around;
+background-color:#f1f1f1;
+max-width:910px;
+width:calc(100% - 30px);
+height:100vh;
+margin:0 auto;
+}header{display:flex;
+justify-content:center;
+align-items:center;
+height:80px;
+}#main{display:flex;
+align-items:center;
+width:inherit;
+height:calc(100vh - 60px - 200px - 40px);
+margin:0 auto;
+}#main-content{width:inherit;
+line-height:8vh;
+margin:0 auto;
+}.section-group{display:flex;
+}.section-group>p{min-width:44%;
+text-align:right;
+}.section-group>span{display:inline-block;
+}footer{position:relative;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+width:100%;
+}footer>div>*{margin-bottom:10px;
+}#mokuji{position:absolute;
+top:0;
+left:30px;
+width:64px;
+height:30px;
+}#mokuji>button{color:-webkit-link;
+cursor:pointer;
+text-decoration:underline;
+}#err-2{display:none;
+}.unshowablevalue{opacity:.6;
+font-size:1px;
+}</style>
+</head><body>
+<div id="app">
+<header v-pre>
+<div>サドルに制作ボーナスを付けたい人に役立つページ</div>
+</header>
+<hr>
+<div id="main">
+<noscript>
+<h2>エラー</h2>
+<p>スクリプトが実行できなかったよ</p>
+</noscript>
+<div id="err-2"v-if="false">
+<h2>エラー</h2>
+<p>外部ライブラリの読み込みに失敗</p>
+</div>
+<div id="main-content"v-cloak>
+<div class="section-group">
+<p>鎧値124に必要:&nbsp;</p>
+<span v-if="showFor124">{{needLevelFor124}}%</span>
+<span class="unshowablevalue"v-else>鎧値85以上で表示</span>
+</div>
+<div class="section-group">
+<p>制作ボーナスの最大:&nbsp;</p>
+<span v-if="level">{{bestCraftBonus}}%</span>
+</div>
+<div class="section-group">
+<p>鎧値の最大:&nbsp;</p>
+<span>{{bestSaddleResult}}</span>
+</div>
+</div>
+</div>
+<hr>
+<footer>
+<!--
+<a v-pre id="mokuji"href="index.html"><button>目次へ</button></a>
+-->
+<div v-cloak>
+<div>
+<label for="saddleValueInput">&emsp;鎧値：</label>
+<input id="saddleValueInput"v-model="saddleVal"@input="masterMainFunc"@blur="saddleSimpleValidate"
+type="number"min="25"max="124"step="1"placeholder="75">
+</div>
+<div>
+<label for="levelValueInput">レベル：</label>
+<input id="levelValueInput"v-model="level"@input="masterMainFunc"@blur="levelSimpleValidate"type="number"
+min="1"max="210"step="1"placeholder="105">
+</div>
+<p>制作スキル:&nbsp;{{craftSkill}}</p>
+</div>
+</footer>
+</div>
+<script src="https://unpkg.com/vue@3.4.23/dist/vue.global.js"></script>
+<script>
+'use strict'
+var saddleOrginalVal=25
+try{var vm=Vue.createApp({data:()=>({saddleVal:null,
+level:null,
+craftSkill:null,
+needLevelFor124:null,
+bestCraftBonus:null,
+bestSaddleResult:null,
+showFor124:false
+}),
+methods:{masterMainFunc:function(){if(this.level !=null){this.craftSkill=(this.level-1)*10+100
+this.bestCraftBonus=((this.craftSkill-100)/20).toFixed(1)
+}if(this.saddleVal==null)return
+if(this.saddleVal>=85){this.showFor124=true
+this.needLevelFor124=(Math.floor(((124-saddleOrginalVal)/(this.saddleVal-saddleOrginalVal)-1)*1000)/10).toFixed(1)
+}else{this.showFor124=false
+}this.bestSaddleResult=(Math.min(124,Math.floor((saddleOrginalVal+(this.saddleVal-saddleOrginalVal)*(this.bestCraftBonus*0.01+1))*100)/100)).toFixed(1)
+},
+saddleSimpleValidate:function(){this.saddleVal=Math.max(saddleOrginalVal,this.saddleVal)
+this.saddleVal=Math.min(124,this.saddleVal)
+this.masterMainFunc()
+},
+levelSimpleValidate:function(event){this.level=Math.max(1,this.level)
+this.masterMainFunc()
+},}}).mount('#app')
+}catch(e){if(e instanceof ReferenceError){console.error(e)
+document.getElementById('err-2').style.display='initial'
+}}</script>
+</body></html>
