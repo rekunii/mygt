@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lamg="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>ARKレシピ必要素材わかーる</title>
+</head>
+<body>
+  <h2>ARKレシピわかーる</h2>
+  <div id="app">
+    <label for="food">種類:&nbsp;</label>
+    <select name="" id="food" v-model="target">
+      <option v-for="v, k in recipes">{{k}}</option>
+    </select>
+    <br>
+    <label for="amount">個数:&nbsp;</label>
+    <input type="number" v-model="target_value" id="amount" min="1" max="1000">
+    <!--<img v-if="target" :src="target+'.webp'">-->
+    <p v-for="v,k in recipes[target]">{{k}}:&nbsp;{{v*target_value}}</p>
+  </div>
+  <!--
+  <footer>
+    <p>画像提供: <a href="https://www.studiowildcard.com/">Studio Wildcard</a>および<a href="https://ark.fandom.com/ja/wiki/ARK_Survival_Evolved_Wiki">Fandom ARK: Survival Evolved wiki</a></p>
+    <p>サイトにある一部の画像は、<a href="https://ark.fandom.com/ja/wiki/ARK_Survival_Evolved_Wiki">Fandom ARK: Survival Evolved wiki</a>のコンテンツを元にしており、CC BY-NC-SA 3.0ライセンスの下で使用されています。詳細は<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">こちら</a>をご覧ください。</p>
+  </footer>
+ -->
+  <script src="https://unpkg.com/vue@3.4.23/dist/vue.global.prod.js"></script>
+  <script>
+    const vm = Vue.createApp({
+      data: () => ({
+        recipes: {
+          "----": {},
+          基本キブル: { ティントベリー: 10, アマルベリー: 10, メジョベリー: 5, こんがり肉: 1, 繊維: 5 },
+          簡易キブル: { メジョベリー: 5, ニンジン: 2, こんがり魚: 1, 繊維: 5 },
+          通常キブル: { ジャガイモ: 2, トウモロコシ: 2, 干し肉: 1, 繊維: 5 },
+          優キブル: { レモン: 2, レアマッシュルーム: 2, 霜降り干し肉: 1, 繊維: 5, 樹液: 1 },
+          超級キブル: { メジョベリー: 10, ラザルスチャウダー: 1, 巨大ハチのハチミツ: 1 },
+          スイートベジタブルケーキ: { ジャガイモ: 2, トウモロコシ: 2, ニンジン: 2, 繊維: 25, 興奮剤: 4, 樹液: 4, 巨大ハチのハチミツ: 2 },
+          メディカルブリュー: { ティントベリー: 20, 麻酔薬: 2 },
+          エナジーブリュー: { アズールベリー: 20, 興奮剤: 2 },
+          フォーカルチリ: { ティントベリー: 20, アズールベリー: 20, アマルベリー: 20, メジョベリー: 10, レモン: 5, こんがり肉: 9 },
+          ラザルスチャウダー: { メジョベリー: 10, ジャガイモ: 5, トウモロコシ: 5, こんがり肉: 9, 麻酔薬: 2 },
+          マインドワイプトニック: { メジョベリー: 200, レアフラワー: 20, レアマッシュルーム: 20, 霜降りこんがり肉: 24, 麻酔薬: 72, 興奮剤: 72 },
+          啓発の煮汁: { メジョベリー: 10, ジャガイモ: 2, トウモロコシ: 2, ニンジン: 2, レモン: 2, ケブカサイの角: 5, 黒真珠: 1 },
+          サボテンスープ: { アマルベリー: 10, メジョベリー: 10 },
+          シャドウステーキ: { メジョベリー: 20, ジャガイモ: 1, ニンジン: 1, レアマッシュルーム: 2, 霜降りこんがり肉: 3, 麻酔薬: 8 },
+          バトルタルタルステーキ: { メジョベリー: 20, トウモロコシ: 1, レモン: 1, レアフラワー: 2, 霜降り肉: 3, 興奮剤: 8 },
+          エンデュロシチュー: { メジョベリー: 10, ジャガイモ: 5, ニンジン: 5, こんがり肉: 9, 興奮剤: 2 },
+          カリエンスープ: { ティントベリー: 20, アマルベリー: 20, メジョベリー: 10, レモン: 5, 興奮剤: 2 },
+          フリアカレー: { アズールベリー: 20, メジョベリー: 10, トウモロコシ: 5, ニンジン: 5, 麻酔薬: 2 },
+          マッシュルームブリュー: { "アガーラビック・マッシュルーム": 5, "アクアティック・マッシュルーム": 5, "アサービック・マッシュルーム": 5, 金のマッシュルーム: 5, 樹液: 3, 凝固ガスボール: 3 }
+        },
+        target: "----",
+        target_value: 1,
+      }),
+      methods: {},
+    }).mount("#app")
+  </script>
+</body>
+</html>
