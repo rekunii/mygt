@@ -18,7 +18,7 @@
     <label for="amount">個数:&nbsp;</label>
     <input type="number" v-model="target_value" id="amount" min="1" max="1000">
     <!--<img v-if="target" :src="target+'.webp'">-->
-    <p v-if="target.endsWith('キブル')">適切な卵:&nbsp;1</p>
+    <p v-if="target.endsWith('キブル')">適切な卵:&nbsp;{{target_value}}</p>
     <p v-for="v,k in recipes[target]">{{k}}:&nbsp;{{v*target_value}}</p>
     <p v-if="target in recipes">水</p>
   </div>
