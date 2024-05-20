@@ -3,31 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
-  <title>ARKレシピ必要素材わかーる</title>
+  <title>ARKレシピわかーる</title>
   <link rel="shortcut icon" href="favicon.webp">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+    body {
+      background-color: #E2E2E2;
+      font-size: 140%;
+    }
+    input, select {
+      font-size: inherit;
+    }
+    @media (prefers-color-scheme: dark){
+      body {
+        background-color: #1F1F1F; 
+        color: #DDD;
+      }
+      input, select {
+        background-color: #DDD;
+      }
+    }
+    
+  </style>
 </head>
 <body>
   <h2>ARKレシピわかーる</h2>
   <div id="app">
     <label for="food">種類:&nbsp;</label>
-    <select name="" id="food" v-model="target">
+    <select name="" id="food" v-model="target" v-cloak>
       <option>----</option>
       <option v-for="v, k in recipes">{{k}}</option>
     </select>
     <br>
     <label for="amount">個数:&nbsp;</label>
-    <input type="number" v-model="target_value" id="amount" min="1" max="1000">
+    <input type="number" v-model="target_value" id="amount" min="1" max="1000" v-cloak>
     <!--<img v-if="target" :src="target+'.webp'">-->
-    <p v-if="target.endsWith('キブル')">適切な卵:&nbsp;{{target_value}}</p>
-    <p v-for="v,k in recipes[target]">{{k}}:&nbsp;{{v*target_value}}</p>
-    <p v-if="target in recipes">水</p>
+    <p v-if="target.endsWith('キブル')" v-cloak>適切な卵:&nbsp;{{target_value}}</p>
+    <p v-for="v,k in recipes[target]" v-cloak>{{k}}:&nbsp;{{v*target_value}}</p>
+    <p v-if="target in recipes" v-cloak>水</p>
   </div>
-  <!--
-  <footer>
-    <p>画像提供: <a href="https://www.studiowildcard.com/">Studio Wildcard</a>および<a href="https://ark.fandom.com/ja/wiki/ARK_Survival_Evolved_Wiki">Fandom ARK: Survival Evolved wiki</a></p>
-    <p>サイトにある一部の画像は、<a href="https://ark.fandom.com/ja/wiki/ARK_Survival_Evolved_Wiki">Fandom ARK: Survival Evolved wiki</a>のコンテンツを元にしており、CC BY-NC-SA 3.0ライセンスの下で使用されています。詳細は<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">こちら</a>をご覧ください。</p>
-  </footer>
- -->
   <script src="https://unpkg.com/vue@3.4.23/dist/vue.global.prod.js"></script>
   <script>
     const vm = Vue.createApp({
