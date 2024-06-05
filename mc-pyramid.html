@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>ピラミッドおしえーる</title>
+  <link rel="shortcut icon" href="favicon.webp">
+  <style>
+    body {
+      background-color: #f2f2f2;
+    }
+    [v-cloak] {
+      display: none;
+    }
+    button {
+      font-size: inherit;
+    }
+    label[for=moji] {
+      background-color: cornsilk;
+      font-size: 1.2rem;
+      text-decoration: underline;
+    }
+    #moji {
+      width: 1.4rem;
+      font-size: 1.4rem;
+    }
+    #pyramidField {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #pyramidField>* {
+      text-align: center;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>マインクラフトでブロックのピラミッドを作る際のブロック数おしえーる</h3>
+  <div id="app">
+    <div v-cloak>
+      <label for="moji">ブロックを表す文字:&nbsp;</label>
+      <input type="text" name="" id="moji" v-model="block" @change="changePyraBlock">
+      <p>ピラミッドの高さ:&nbsp;{{pyramid_height}}</p>
+      <p>最下層の石:&nbsp;{{pyramid_foot}}</p>
+      <p>石の数(平面):&nbsp;{{totalBlocks}}</p>
+      <p>石の数(立体):&nbsp;{{totalBlocks_3d}}</p>
+      <p>
+        <button @click="surf=(surf+1)%4">ハリボテ({{surf+1}}面)</button>
+        <span v-if="surf!=3">:&nbsp;{{(totalBlocks*(surf+1))-(pyramid_height*surf)}}</span>
+        <span v-if="surf==3">:&nbsp;{{(totalBlocks*(surf+1))-(pyramid_height*(surf+1))+1}}</span>
+      </p>
+      <p>ハリボテ(底面):&nbsp;{{pyramid_foot**2}}</p>
+      <p>ハリボテ(底面内側):&nbsp;{{pyramid_foot**2-(pyramid_foot*4-4)}}</p>
+      <button @click="buttonHandler">でかくする</button>
+      <div id="pyramidField" v-once>
+        <p>{{this.block}}</p>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3.4.23/dist/vue.global.prod.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data: () => ({
+        block: "国",
+        pyramid_height: 1,
+        pyramid_foot: 1,
+        totalBlocks: 1,
+        totalBlocks_3d: 1,
+        surf: 0
+      }),
+      methods: {
+        buttonHandler: function () {
+          if (this.pyramid_height <= 11) {
+            document.getElementById("pyramidField").appendChild(document.createElement("p")).innerHTML = `${this.block.repeat(this.pyramid_foot + 2)}`
+          } else if (this.pyramid_height == 12) {
+            document.getElementById("pyramidField").appendChild(document.createElement("span")).innerHTML = "(さらに多くのブロック)"
+          }
+          this.pyramid_foot += 2
+          this.totalBlocks += this.pyramid_foot
+          this.totalBlocks_3d += this.pyramid_foot ** 2
+          this.pyramid_height++
+        },
+        changePyraBlock: function() {
+          this.block = this.block[0] || "国"
+          document.querySelectorAll("#pyramidField>p").forEach(el => {
+            el.innerText = this.block.repeat(el.innerText.length)
+          });
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>
